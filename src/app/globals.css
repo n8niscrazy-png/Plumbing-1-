@@ -1,27 +1,655 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   PLUMBING SYSTEMS, INC. — Design Tokens
+   Industrial-Refined: Navy + Copper/Brass + Warm Whites
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --- Navy Blues --- */
+  --navy-950: #0C1B2A;
+  --navy-900: #112337;
+  --navy-800: #1B3A5C;
+  --navy-700: #234B75;
+  --navy-600: #2C5D8F;
+  --navy-500: #3A73AA;
+  --navy-400: #5A92C2;
+  --navy-300: #8BB4D8;
+  --navy-200: #B5D1E8;
+  --navy-100: #DAE8F3;
+  --navy-50: #EDF4F9;
+
+  /* --- Copper / Brass Accents --- */
+  --copper-700: #8B5A2B;
+  --copper-600: #A0652F;
+  --copper-500: #B87333;
+  --copper-400: #C98B4E;
+  --copper-300: #D4A574;
+  --copper-200: #E2C4A0;
+  --copper-100: #F0DFC8;
+  --copper-50: #F8F0E6;
+
+  /* --- Warm Off-Whites & Grays --- */
+  --warm-50: #FAFAF8;
+  --warm-100: #F5F1EC;
+  --warm-200: #EDE7DF;
+  --warm-300: #DDD5CA;
+  --warm-400: #C4B9AB;
+  --warm-500: #A39888;
+  --warm-600: #7A7066;
+  --warm-700: #5C5449;
+  --warm-800: #3D372F;
+  --warm-900: #2A2520;
+
+  /* --- Functional Colors --- */
+  --emergency-red: #C0392B;
+  --emergency-red-dark: #962D22;
+  --emergency-red-light: #F5D5D1;
+  --success-green: #27AE60;
+  --success-green-light: #D4EFDF;
+  --warning-amber: #D4A017;
+
+  /* --- Semantic Tokens --- */
+  --background: var(--warm-50);
+  --background-alt: var(--warm-100);
+  --foreground: var(--navy-950);
+  --foreground-muted: var(--warm-600);
+  --heading-color: var(--navy-950);
+  --accent: var(--copper-500);
+  --accent-hover: var(--copper-600);
+  --accent-light: var(--copper-100);
+  --surface: #FFFFFF;
+  --surface-elevated: #FFFFFF;
+  --border: var(--warm-300);
+  --border-light: var(--warm-200);
+  --ring: var(--copper-500);
+
+  /* --- Typography --- */
+  --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', Courier, monospace;
+
+  /* --- Spacing & Sizing --- */
+  --header-height: 80px;
+  --max-width: 1280px;
+  --section-padding: clamp(3rem, 8vw, 7rem);
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 1px 3px rgba(12, 27, 42, 0.06), 0 1px 2px rgba(12, 27, 42, 0.04);
+  --shadow-md: 0 4px 12px rgba(12, 27, 42, 0.08), 0 2px 4px rgba(12, 27, 42, 0.04);
+  --shadow-lg: 0 12px 32px rgba(12, 27, 42, 0.10), 0 4px 8px rgba(12, 27, 42, 0.06);
+  --shadow-xl: 0 20px 48px rgba(12, 27, 42, 0.14), 0 8px 16px rgba(12, 27, 42, 0.08);
+  --shadow-copper: 0 4px 16px rgba(184, 115, 51, 0.20);
+
+  /* --- Transitions --- */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
+  font-family: var(--font-body);
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--background);
+  line-height: 1.7;
+  font-weight: 400;
+  font-size: 16px;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* --- Subtle Noise Texture Overlay --- */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+.noise-overlay {
+  position: relative;
+}
+
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--heading-color);
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem); }
+h2 { font-size: clamp(2rem, 3.5vw + 0.5rem, 3.25rem); }
+h3 { font-size: clamp(1.5rem, 2.5vw + 0.25rem, 2.25rem); }
+h4 { font-size: clamp(1.25rem, 1.5vw + 0.25rem, 1.75rem); }
+h5 { font-size: clamp(1.1rem, 1.2vw + 0.2rem, 1.375rem); }
+h6 { font-size: clamp(1rem, 1vw + 0.1rem, 1.125rem); }
+
+p {
+  max-width: 68ch;
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--copper-500);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--copper-600);
+}
+
+strong, b {
+  font-weight: 700;
+}
+
+
+/* ============================================================
+   SELECTION STYLES
+   ============================================================ */
+
+::selection {
+  background-color: var(--copper-500);
+  color: #FFFFFF;
+}
+
+::-moz-selection {
+  background-color: var(--copper-500);
+  color: #FFFFFF;
+}
+
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--warm-200);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--copper-400);
+  border-radius: 6px;
+  border: 2px solid var(--warm-200);
+  transition: background var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--copper-500);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--warm-200);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--copper-400) var(--warm-200);
+}
+
+
+/* ============================================================
+   FOCUS STYLES
+   ============================================================ */
+
+:focus-visible {
+  outline: 2px solid var(--copper-500);
+  outline-offset: 3px;
+  border-radius: var(--border-radius-sm);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Specific focus ring class for components */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--copper-500);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(184, 115, 51, 0.15);
+  border-radius: var(--border-radius-sm);
+}
+
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+/* --- Copper Underline --- */
+.copper-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.copper-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--copper-500), var(--copper-300));
+  border-radius: 2px;
+}
+
+/* Thicker variant */
+.copper-underline-thick::after {
+  height: 6px;
+  bottom: -6px;
+}
+
+/* Partial underline (accent) */
+.copper-underline-partial {
+  position: relative;
+  display: inline-block;
+}
+
+.copper-underline-partial::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--copper-500), var(--copper-300));
+  border-radius: 2px;
+}
+
+
+/* --- Diagonal Cut Section --- */
+.diagonal-cut {
+  clip-path: polygon(0 0, 100% 4%, 100% 96%, 0 100%);
+}
+
+.diagonal-cut-top {
+  clip-path: polygon(0 4%, 100% 0, 100% 100%, 0 100%);
+}
+
+.diagonal-cut-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%);
+}
+
+.diagonal-cut-reverse {
+  clip-path: polygon(0 4%, 100% 0, 100% 100%, 0 96%);
+}
+
+
+/* --- Copper Gradient Text --- */
+.text-gradient-copper {
+  background: linear-gradient(135deg, var(--copper-500) 0%, var(--copper-300) 50%, var(--copper-500) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-navy {
+  background: linear-gradient(135deg, var(--navy-950) 0%, var(--navy-700) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+/* --- Industrial Pipe Divider --- */
+.pipe-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pipe-divider::before,
+.pipe-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--copper-300), transparent);
+}
+
+.pipe-divider-left::before {
+  display: none;
+}
+
+.pipe-divider-left::after {
+  background: linear-gradient(90deg, var(--copper-500), transparent);
+}
+
+
+/* ============================================================
+   BUTTONS (base patterns for use with Tailwind)
+   ============================================================ */
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center font-semibold transition-all duration-200;
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, var(--copper-500), var(--copper-600));
+    color: #FFFFFF;
+    padding: 14px 32px;
+    border-radius: var(--border-radius-sm);
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    box-shadow: var(--shadow-sm);
+    text-transform: uppercase;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, var(--copper-600), var(--copper-700));
+    box-shadow: var(--shadow-copper);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center font-semibold transition-all duration-200;
+    font-family: var(--font-body);
+    background: transparent;
+    color: var(--copper-500);
+    padding: 12px 30px;
+    border-radius: var(--border-radius-sm);
+    border: 2px solid var(--copper-500);
+    cursor: pointer;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .btn-secondary:hover {
+    background: var(--copper-500);
+    color: #FFFFFF;
+    box-shadow: var(--shadow-copper);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary:active {
+    transform: translateY(0);
+  }
+
+  .btn-navy {
+    @apply inline-flex items-center justify-center font-semibold transition-all duration-200;
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, var(--navy-900), var(--navy-950));
+    color: #FFFFFF;
+    padding: 14px 32px;
+    border-radius: var(--border-radius-sm);
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    box-shadow: var(--shadow-sm);
+    text-transform: uppercase;
+  }
+
+  .btn-navy:hover {
+    background: linear-gradient(135deg, var(--navy-800), var(--navy-900));
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+
+  .btn-emergency {
+    @apply inline-flex items-center justify-center font-bold transition-all duration-200;
+    font-family: var(--font-body);
+    background: var(--emergency-red);
+    color: #FFFFFF;
+    padding: 14px 32px;
+    border-radius: var(--border-radius-sm);
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    animation: pulse-emergency 2s ease-in-out infinite;
+  }
+
+  .btn-emergency:hover {
+    background: var(--emergency-red-dark);
+    box-shadow: 0 4px 16px rgba(192, 57, 43, 0.35);
+    transform: translateY(-1px);
+    animation: none;
+  }
+}
+
+@keyframes pulse-emergency {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(192, 57, 43, 0); }
+}
+
+
+/* ============================================================
+   CARD PATTERNS
+   ============================================================ */
+
+@layer components {
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .card-copper {
+    background: var(--surface);
+    border: 1px solid var(--copper-200);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
+  }
+
+  .card-copper:hover {
+    border-color: var(--copper-400);
+    box-shadow: var(--shadow-copper);
+    transform: translateY(-2px);
+  }
+}
+
+
+/* ============================================================
+   SECTION PATTERNS
+   ============================================================ */
+
+.section-navy {
+  background-color: var(--navy-950);
+  color: var(--warm-100);
+}
+
+.section-navy h1,
+.section-navy h2,
+.section-navy h3,
+.section-navy h4,
+.section-navy h5,
+.section-navy h6 {
+  color: #FFFFFF;
+}
+
+.section-navy p {
+  color: var(--navy-200);
+}
+
+.section-warm {
+  background-color: var(--warm-100);
+}
+
+.section-copper-accent {
+  border-top: 4px solid var(--copper-500);
+}
+
+
+/* ============================================================
+   FONT FAMILY UTILITY CLASSES
+   ============================================================ */
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+/* Staggered delays for lists */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+
+/* ============================================================
+   RESPONSIVE HELPERS
+   ============================================================ */
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 64px;
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  .diagonal-cut {
+    clip-path: polygon(0 0, 100% 2%, 100% 98%, 0 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
