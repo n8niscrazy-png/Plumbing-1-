@@ -181,7 +181,7 @@ export default function ContactPage() {
       <Header />
       <main className="min-h-screen bg-warm-50">
         {/* ============ HERO ============ */}
-        <section className="relative bg-navy-900 pt-32 pb-16 sm:pt-40 sm:pb-20 overflow-hidden">
+        <section className="relative bg-navy-900 pt-40 pb-16 sm:pt-44 sm:pb-20 overflow-hidden">
           {/* Subtle pattern overlay */}
           <div
             className="absolute inset-0 opacity-[0.03] pointer-events-none"

@@ -104,7 +104,7 @@ export default function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center"
         style={{ minHeight: "calc(100vh - 80px)" }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full py-16 lg:py-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full pt-36 pb-16 sm:pt-32 lg:pt-0 lg:pb-0">
           {/* ========== LEFT SIDE — TEXT ========== */}
           <motion.div
             variants={containerVariants}

@@ -241,7 +241,7 @@ export default function SchedulePage() {
       <Header />
       <main className="min-h-screen bg-warm-50">
         {/* ============ HERO ============ */}
-        <section className="relative pt-32 pb-16 sm:pt-40 sm:pb-20 overflow-hidden bg-gradient-to-br from-copper-500 via-copper-500 to-copper-300">
+        <section className="relative pt-40 pb-16 sm:pt-44 sm:pb-20 overflow-hidden bg-gradient-to-br from-copper-500 via-copper-500 to-copper-300">
           {/* Subtle pattern overlay */}
           <div
             className="absolute inset-0 opacity-[0.06] pointer-events-none"
