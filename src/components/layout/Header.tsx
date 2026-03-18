@@ -163,14 +163,14 @@ export default function Header() {
                   width={400}
                   height={200}
                   className={`transition-all duration-300 ${
-                    scrolled ? "h-16 w-auto" : "h-28 sm:h-32 w-auto"
+                    scrolled ? "h-20 w-auto" : "h-32 sm:h-40 w-auto"
                   }`}
                   priority
                 />
               </Link>
 
               {/* ---------- DESKTOP NAV ---------- */}
-              <nav className="hidden lg:flex items-center gap-1">
+              <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
                 {navItems.map((item) =>
                   item.submenu ? (
                     /* Services with dropdown */
@@ -182,7 +182,7 @@ export default function Header() {
                     >
                       <Link
                         href={item.href}
-                        className="flex items-center gap-1 px-3 py-2 text-sm font-body font-medium text-[#0C1B2A] hover:text-[#B87333] transition-colors rounded-md"
+                        className="flex items-center gap-1 px-2 xl:px-3 py-2 text-xs xl:text-sm font-body font-medium text-[#0C1B2A] hover:text-[#B87333] transition-colors rounded-md whitespace-nowrap"
                       >
                         {item.label}
                         <ChevronDown
@@ -244,7 +244,7 @@ export default function Header() {
                     <Link
                       key={item.label}
                       href={item.href}
-                      className="px-3 py-2 text-sm font-body font-medium text-[#0C1B2A] hover:text-[#B87333] transition-colors rounded-md"
+                      className="px-2 xl:px-3 py-2 text-xs xl:text-sm font-body font-medium text-[#0C1B2A] hover:text-[#B87333] transition-colors rounded-md whitespace-nowrap"
                     >
                       {item.label}
                     </Link>
@@ -253,22 +253,22 @@ export default function Header() {
               </nav>
 
               {/* ---------- DESKTOP CTA AREA ---------- */}
-              <div className="hidden lg:flex items-center gap-3">
+              <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
                 {/* Phone button */}
                 <a
                   href="tel:8592948080"
-                  className="flex items-center gap-2 px-3 py-2 text-sm font-mono font-medium text-[#0C1B2A] border border-[#0C1B2A]/20 rounded-lg hover:border-[#B87333] hover:text-[#B87333] transition-colors"
+                  className="flex items-center gap-1.5 px-2 xl:px-3 py-2 text-xs xl:text-sm font-mono font-medium text-[#0C1B2A] border border-[#0C1B2A]/20 rounded-lg hover:border-[#B87333] hover:text-[#B87333] transition-colors whitespace-nowrap"
                 >
-                  <Phone className="w-4 h-4" />
-                  859.294.8080
+                  <Phone className="w-3.5 h-3.5 xl:w-4 xl:h-4" />
+                  <span className="hidden xl:inline">859.294.8080</span>
                 </a>
 
                 {/* Schedule CTA */}
                 <Link
                   href="/schedule"
-                  className="flex items-center gap-2 px-5 py-2.5 text-sm font-body font-semibold text-white rounded-lg bg-gradient-to-r from-[#B87333] to-[#CD8E52] hover:from-[#CD8E52] hover:to-[#B87333] shadow-md hover:shadow-lg transition-all duration-300"
+                  className="flex items-center gap-1.5 px-3 xl:px-5 py-2 xl:py-2.5 text-xs xl:text-sm font-body font-semibold text-white rounded-lg bg-gradient-to-r from-[#B87333] to-[#CD8E52] hover:from-[#CD8E52] hover:to-[#B87333] shadow-md hover:shadow-lg transition-all duration-300 whitespace-nowrap"
                 >
-                  <Calendar className="w-4 h-4" />
+                  <Calendar className="w-3.5 h-3.5 xl:w-4 xl:h-4" />
                   Schedule Service
                 </Link>
               </div>
